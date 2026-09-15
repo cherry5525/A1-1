@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
@@ -25,17 +25,17 @@ def recommend():
     period = data["period"]
     goal = data["goal"]
     food = data["food"]
-    allergy = data['allergy']
+    allergy = data["allergy"]
+
+    
+    # 2. AI에게 보낼 질문 만들기
+    prompt = f"{gender}, {age}살이고, {period}일 동안 {goal}을(를) 목표로 해요. {food}을(를) 좋아합니다. {allergy}에 알레르기가 있으니 이 재료는 반드시 빼주세요. 이 사람에게 맞는 식단을 추천해주세요."
 
     # 알레르기가 있을 때만 문장 만들기!
     if allergy:
         allergy_text = f"{allergy}에 알레르기가 있으니 이 재료는 반드시 빼주세요."
     else:
         allergy_text = ""
-
-    
-    # 2. AI에게 보낼 질문 만들기
-    prompt = f"{gender}, {age}살이고, {period}일 동안 {goal}을(를) 목표로 해요. {food}을(를) 좋아합니다. {allergy}에 알레르기가 있으니 이 재료는 반드시 빼주세요. 이 사람에게 맞는 식단을 추천해주세요."
 
     # 3. AI에게 질문 보내고 답변 받기
     response = client.chat.completions.create(
@@ -50,11 +50,3 @@ def recommend():
     return jsonify({"result": result})
 
 
-# 웹 페이지(index.html) 보여주기
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-# 서버 실행하기
-if __name__ == "__main__":
-    app.run(debug=True)
