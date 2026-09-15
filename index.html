@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>AI 식단 추천</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h1>AI 식단 추천 서비스</h1>
+<p>나에게 딱 맞는 식단을 추천해드려요!</p>
+<form>
+    <label>성별:</label>
+    <select id="gender">
+        <option>남성</option>
+        <option>여성</option>
+    </select><br>
+    <label>나이:</label>
+    <input type="number" id="age"><br>
+    <label>기간(일):</label>
+    <input type="number" id="period"><br>
+    <label>목적:</label>
+    <select id="goal">
+        <option>다이어트</option>
+        <option>근육 증가</option>
+        <option>건강 유지</option>
+    </select><br>
+    <label>좋아하는 음식:</label>
+    <input type="text" id="food"><br>
+    <label>알레르기: </label>
+    <input type="text" id="allergy" placeholder="예: 새우, 땅콩 (없으면 비워두세요)">
+    <button type="button" onclick="getRecommend()">식단 추천받기</button>
+</form>
+
+<!-- 결과를 보여줄 공간 -->
+<div id="result" class="result"></div>
+
+<button id="copyBtn" class="copy-btn" onclick="copyResult()" style="display:none;">
+    📋 식단 복사하기
+</button>
+
+<button id="pdfBtn" onclick="downloadPDF()" style="display:none;">📕 PDF로 저장</button>
+
+<script>
+async function getRecommend() {
+    // 1. 입력값 모으기
+    const data = {
+        gender: document.getElementById("gender").value,
+        age: document.getElementById("age").value,
+        period: document.getElementById("period").value,
+        goal: document.getElementById("goal").value,
+        food: document.getElementById("food").value,
+        allergy: document.getElementById("allergy").value
+    };
+
+    // ⭐ 빈 입력 체크! (나이·기간은 꼭 필요해요)
+    if (!data.age || !data.period) {
+        showToast("⚠️ 나이와 기간을 입력해주세요!");
+        return;  // 여기서 멈춤! 서버로 안 보냄
+    }
+
+    // 입력값 저장하기!
+    localStorage.setItem("gender", data.gender);
+    localStorage.setItem("age", data.age);
+    localStorage.setItem("period", data.period);
+    localStorage.setItem("goal", data.goal);
+    localStorage.setItem("food", data.food);
+    localStorage.setItem("allergy", data.allergy);
+
+    // 2. "추천 중..." 표시
+    document.getElementById("result").innerHTML =
+    '<span class="spinner"></span>식단을 만들고 있어요...';
+
+    // ⭐ try-catch로 안전하게 감싸기!
+    try {
+        // 3. 서버로 데이터 보내기
+        const response = await fetch("/api/recommend", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        // ⭐ 서버 응답이 정상인지 확인!
+        if (!response.ok) {
+            throw new Error("서버에서 문제가 생겼어요");
+        }
+
+        // 4. 답변 받아서 화면에 보여주기
+        const result = await response.json();
+        document.getElementById("result").innerText = result.result;
+        document.getElementById("copyBtn").style.display = "inline-block";
+        document.getElementById("pdfBtn").style.display = "inline-block";
+
+    } catch (error) {
+        // ⭐ 오류가 나면 여기로!
+        document.getElementById("result").innerText =
+        "😢 추천을 받지 못했어요. 잠시 후 다시 시도해주세요.";
+        showToast("❌ 오류가 발생했어요!");
+        console.log("에러 내용:", error);  // 개발자용 (F12로 확인)
+    }
+}
+
+// 페이지 열릴 때 저장된 값 불러오기!
+window.onload = function() {
+    if (localStorage.getItem("gender")) {
+        document.getElementById("gender").value = localStorage.getItem("gender");
+        document.getElementById("age").value = localStorage.getItem("age");
+        document.getElementById("period").value = localStorage.getItem("period");
+        document.getElementById("goal").value = localStorage.getItem("goal");
+        document.getElementById("food").value = localStorage.getItem("food");
+        document.getElementById("allergy").value = localStorage.getItem("allergy");
+    }
+};
+
+
+// 결과를 복사하는 함수
+function copyResult() {
+    const resultText = document.getElementById("result").innerText;
+    
+    navigator.clipboard.writeText(resultText).then(() => {
+        showToast("✅ 식단이 복사되었어요!");  // alert 대신 토스트!
+    });
+}
+
+// 예쁜 토스트 알림 함수
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.classList.add("show");     // 나타나기!
+    
+    // 2초 후 사라지기
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2000);
+}
+
+function downloadPDF() {
+    // 1. 결과 영역 가져오기
+    const result = document.getElementById("result");
+
+    // 2. 결과 없으면 안내!
+    if (!result.innerText) {
+        alert("먼저 식단을 추천받아 주세요! 😊");
+        return;
+    }
+
+    // 3. 결과 영역을 사진으로 찰칵! 📸
+    html2canvas(result).then(function(canvas) {
+        const imgData = canvas.toDataURL("image/png");
+
+        // 4. PDF 만들기
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        // 5. 사진 크기를 A4에 맞추기
+        const width = 190;
+        const height = (canvas.height * width) / canvas.width;
+
+        // 6. PDF에 사진 넣기
+        pdf.addImage(imgData, "PNG", 10, 10, width, height);
+
+        // 7. 저장!
+        pdf.save("내_식단.pdf");
+    });
+}
+
+
+</script>
+
+<!-- 토스트 알림 (예쁜 메시지창) -->
+<div id="toast" class="toast"></div>
+
+<!-- PDF 만들기 라이브러리 2개 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+# 환경 변수 (API 키가 여기 들어감)
+.env
+.env.local
+
+# Vercel
+.vercel
+
+# 파이썬
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
