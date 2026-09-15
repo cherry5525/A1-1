@@ -16,7 +16,7 @@ client = OpenAI(
 app = Flask(__name__)
 
 # 식단 추천 요청을 처리하는 곳
-@app.route("/recommend", methods=["POST"])
+@app.route("/api/recommend", methods=["POST"])
 def recommend():
     # 1. 사용자가 보낸 정보 받기
     data = request.json
