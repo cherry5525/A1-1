@@ -6,7 +6,26 @@
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h1>AI 식단 추천 서비스</h1>
+      <!-- 🧭 1. 네비게이션 (상단 고정 메뉴) -->
+  <nav class="navbar">
+    <div class="logo">🥗 AI 식단</div>
+    <ul class="nav-links">
+      <li><a href="#home">소개</a></li>
+      <li><a href="#recommend">AI 추천</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+
+  <!-- 🏠 2. 소개 섹션 -->
+  <section id="home" class="section">
+    <h1>AI 식단 추천 서비스</h1>
+    <p>당신의 조건에 딱 맞는 맞춤 식단을 AI가 추천해드려요!</p>
+    <a href="#recommend" class="cta-btn">지금 시작하기</a>
+  </section>
+ 
+   <!-- 🤖 3. AI 추천 섹션 (기존 폼!) --> 
+<section id="recommend" class="section"></section>
+<h2>AI 식단 추천 서비스</h2>
 <p>나에게 딱 맞는 식단을 추천해드려요!</p>
 <form>
     <label>성별:</label>
@@ -34,11 +53,31 @@
 <!-- 결과를 보여줄 공간 -->
 <div id="result" class="result"></div>
 
+  </section>
+
 <button id="copyBtn" class="copy-btn" onclick="copyResult()" style="display:none;">
     📋 식단 복사하기
 </button>
 
 <button id="pdfBtn" onclick="downloadPDF()" style="display:none;">📕 PDF로 저장</button>
+
+  <!-- ❓ 4. FAQ 섹션 -->
+  <section id="faq" class="section">
+    <h2>자주 묻는 질문</h2>
+    <div class="faq-item">
+      <h3>Q. 알레르기도 반영되나요?</h3>
+      <p>네! 입력하신 알레르기 음식은 식단에서 제외됩니다.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Q. 추천 결과를 저장할 수 있나요?</h3>
+      <p>네! PDF 다운로드 기능으로 저장할 수 있어요.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Q. 비용이 드나요?</h3>
+      <p>무료로 이용하실 수 있습니다.</p>
+    </div>
+  </section>
+
 
 <script>
 async function getRecommend() {

@@ -113,3 +113,95 @@ button:hover {
     opacity: 1;                  /* 보이게! */
     transform: translateX(-50%) translateY(0); /* 위로 올라옴! */
 }
+
+/* 모바일 화면 (600px 이하) */
+@media (max-width: 600px) {
+    body {
+        padding: 15px;   /* 여백 줄이기 */
+    }
+
+    h1 {
+        font-size: 24px; /* 제목 작게 */
+    }
+
+    /* 입력창을 꽉 차게! */
+    select, input {
+        width: 100%;
+        box-sizing: border-box;  /* padding 포함해서 100% */
+    }
+
+    button {
+        width: 100%;     /* 버튼도 꽉 차게 (터치 쉽게) */
+    }
+}
+
+/* 🧭 네비게이션 바 */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4a7c59;   /* 민트/그린 테마 */
+  padding: 15px 30px;
+  position: sticky;            /* 스크롤해도 상단 고정! */
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  margin: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* 📦 각 섹션 공통 */
+.section {
+  padding: 60px 30px;
+  scroll-margin-top: 70px;   /* 메뉴 클릭 시 제목이 안 가려지게! */
+}
+
+/* 🏠 소개 섹션 버튼 */
+.cta-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 30px;
+  background-color: #4a7c59;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.cta-btn:hover {
+  background-color: #3a6347;
+}
+
+/* ❓ FAQ 아이템 */
+.faq-item {
+  background-color: #f4f9f4;
+  border-left: 4px solid #4a7c59;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.faq-item h3 {
+  margin: 0 0 8px 0;
+  color: #4a7c59;
+}
