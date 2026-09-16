@@ -25,7 +25,7 @@ def recommend():
     period = data["period"]
     goal = data["goal"]
     food = data["food"]
-    allergy = data["allergy"]
+    allergy = data.get('allergy')
     height = data.get('height') # 없으면 None
     weight = data.get('weight')
 
