@@ -205,3 +205,39 @@ button:hover {
   margin: 0 0 8px 0;
   color: #4a7c59;
 }
+
+/* ☀️ 라이트 모드 (기본값) - CSS 변수 */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f5f5f5;
+  --mint: #3ec9a7;  /* 민트는 유지! */
+}
+
+/* 🌙 다크 모드 */
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --card-bg: #2a2a2a;
+  --mint: #4dd9b5;  /* 다크에선 살짝 밝게 */
+}
+
+/* 변수를 실제 요소에 적용 */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;  /* 부드러운 전환! */
+}
+
+.card, .section {
+  background-color: var(--card-bg);
+}
+
+/* 토글 버튼 스타일 */
+.dark-toggle {
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}

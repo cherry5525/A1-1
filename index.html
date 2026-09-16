@@ -14,12 +14,15 @@
       <li><a href="#recommend">AI 추천</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
+    <button id="darkModeToggle" class="dark-toggle">
+  🌙
+</button>
   </nav>
 
   <!-- 🏠 2. 소개 섹션 -->
   <section id="home" class="section">
-    <h1>AI 식단 추천 서비스</h1>
-    <p>당신의 조건에 딱 맞는 맞춤 식단을 AI가 추천해드려요!</p>
+    <h1>건강한 하루, AI가 챙겨드릴게요 🥗</h1>
+    <p>성별·나이·목적만 입력하면, 나에게 딱 맞는 식단이 뚝딱!</p>
     <a href="#recommend" class="cta-btn">지금 시작하기</a>
   </section>
  
@@ -201,6 +204,35 @@ function downloadPDF() {
         pdf.save("내_식단.pdf");
     });
 }
+
+// 토글 버튼과 body 가져오기
+const toggleBtn = document.getElementById('darkModeToggle');
+const body = document.documentElement; // <html> 태그
+
+// 1. 페이지 로드 시 저장된 테마 복원
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+  body.setAttribute('data-theme', 'dark');
+  toggleBtn.textContent = '☀️';
+}
+
+// 2. 버튼 클릭 시 전환
+toggleBtn.addEventListener('click', () => {
+  const currentTheme = body.getAttribute('data-theme');
+  
+  if (currentTheme === 'dark') {
+    // 다크 → 라이트
+    body.removeAttribute('data-theme');
+    toggleBtn.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  } else {
+    // 라이트 → 다크
+    body.setAttribute('data-theme', 'dark');
+    toggleBtn.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  }
+});
+
 
 
 </script>
