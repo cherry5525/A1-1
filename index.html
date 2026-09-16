@@ -127,7 +127,9 @@ async function getRecommend() {
         period: document.getElementById("period").value,
         goal: document.getElementById("goal").value,
         food: document.getElementById("food").value,
-        allergy: document.getElementById("allergy").value
+        allergy: document.getElementById("allergy").value,
+        height: document.getElementById("height").value,
+        weight: document.getElementById("weight").value
     };
 
     // ⭐ 빈 입력 체크! (나이·기간은 꼭 필요해요)
@@ -269,21 +271,6 @@ toggleBtn.addEventListener('click', () => {
   }
 });
 
-// 값 읽기
-const height = document.getElementById('height').value;
-const weight = document.getElementById('weight').value;
-
-// fetch 요청 body에 추가
-const response = await fetch('/api/recommend', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    goal: goal,           // 기존 목표
-    allergy: allergy,     // 기존 알레르기
-    height: height || null,  // 👈 추가! 없으면 null
-    weight: weight || null,  // 👈 추가! 없으면 null
-  })
-});
 
 </script>
 
@@ -296,4 +283,4 @@ const response = await fetch('/api/recommend', {
 
 
 </body>
-</html>
+</html>D
