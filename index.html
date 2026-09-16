@@ -46,10 +46,46 @@
         <option>근육 증가</option>
         <option>건강 유지</option>
     </select><br>
-    <label>좋아하는 음식:</label>
-    <input type="text" id="food"><br>
-    <label>알레르기: </label>
-    <input type="text" id="allergy" placeholder="예: 새우, 땅콩 (없으면 비워두세요)">
+    <!-- 좋아하는 음식 -->
+<div class="input-group">
+  <label for="food">좋아하는 음식</label>
+  <input type="text" id="food" placeholder="예: 닭가슴살, 샐러드">
+</div>
+
+<!-- 알레르기 (선택사항) -->
+<div class="input-group">
+  <label for="allergy">알레르기 <span class="optional">선택</span></label>
+  <input 
+    type="text" 
+    id="allergy" 
+    placeholder="예: 새우, 땅콩 (없으면 비워두세요)"
+  >
+</div>
+<!-- 키 입력 (선택사항) -->
+<div class="input-group">
+  <label for="height">키 (cm) <span class="optional">선택</span></label>
+  <input 
+    type="number" 
+    id="height" 
+    placeholder="예: 170" 
+    min="100" 
+    max="250"
+  />
+</div>
+
+<!-- 몸무게 입력 (선택사항) -->
+<div class="input-group">
+  <label for="weight">몸무게 (kg) <span class="optional">선택</span></label>
+  <input 
+    type="number" 
+    id="weight" 
+    placeholder="예: 65" 
+    min="30" 
+    max="200"
+  />
+</div>
+
+
     <button type="button" onclick="getRecommend()">식단 추천받기</button>
 </form>
 
@@ -233,7 +269,21 @@ toggleBtn.addEventListener('click', () => {
   }
 });
 
+// 값 읽기
+const height = document.getElementById('height').value;
+const weight = document.getElementById('weight').value;
 
+// fetch 요청 body에 추가
+const response = await fetch('/api/recommend', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    goal: goal,           // 기존 목표
+    allergy: allergy,     // 기존 알레르기
+    height: height || null,  // 👈 추가! 없으면 null
+    weight: weight || null,  // 👈 추가! 없으면 null
+  })
+});
 
 </script>
 
