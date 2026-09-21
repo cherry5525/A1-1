@@ -64,3 +64,14 @@ def add_prompt():
     print("프롬프트가 추가되었습니다!")
 
 
+# ===== 목록 출력 (브랜치에서 작업할 기능) =====
+def show_list():
+    print("\n=== 프롬프트 목록 ===")
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+    for i, p in enumerate(prompts, 1):
+        star = " ⭐" if p["favorite"] else ""
+        print(f"{i}. [{p['category']}] {p['title']}{star}")
+    print(f"\n총 {len(prompts)}개의 프롬프트")
+
