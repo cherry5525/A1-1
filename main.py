@@ -33,3 +33,34 @@ def show_menu():
     print("6. 즐겨찾기 관리")
     print("7. 즐겨찾기 목록")
     print("0. 종료")
+
+
+# ===== 프롬프트 추가 =====
+def add_prompt():
+    print("\n=== 프롬프트 추가 ===")
+    title = input("제목: ").strip()
+    while title == "":
+        title = input("제목을 입력하세요: ").strip()
+
+    content = input("내용: ").strip()
+    while content == "":
+        content = input("내용을 입력하세요: ").strip()
+
+    print("카테고리 선택:")
+    for i, c in enumerate(categories, 1):
+        print(f"{i}) {c}")
+    choice = input("선택: ").strip()
+    if choice.isdigit() and 1 <= int(choice) <= len(categories):
+        category = categories[int(choice) - 1]
+    else:
+        category = choice  # 직접 입력
+
+    prompts.append({
+        "title": title,
+        "content": content,
+        "category": category,
+        "favorite": False
+    })
+    print("프롬프트가 추가되었습니다!")
+
+
