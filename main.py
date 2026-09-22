@@ -149,3 +149,31 @@ def show_favorites():
         print(f"{i}. [{p['category']}] {p['title']} ⭐")
     print(f"\n총 {len(found)}개의 즐겨찾기")
 
+# ===== 메인 실행 =====
+def main():
+    while True:
+        show_menu()
+        choice = input("선택: ").strip()
+        if choice == "1":
+            add_prompt()
+        elif choice == "2":
+            show_list()
+        elif choice == "3":
+            show_by_category()
+        elif choice == "4":
+            search_prompt()
+        elif choice == "5":
+            show_detail()
+        elif choice == "6":
+            manage_favorite()
+        elif choice == "7":
+            show_favorites()
+        elif choice == "0":
+            print("프로그램을 종료합니다.")
+            break
+        else:
+            print("잘못된 번호입니다. 다시 선택해주세요.")
+
+
+if __name__ == "__main__":
+    main()
