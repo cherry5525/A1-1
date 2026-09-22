@@ -126,3 +126,15 @@ def show_detail():
     print(p["content"])
     print("─" * 30)
 
+# ===== 즐겨찾기 관리 =====
+def manage_favorite():
+    print("\n=== 즐겨찾기 관리 ===")
+    num = input("프롬프트 번호 입력: ").strip()
+    if not (num.isdigit() and 1 <= int(num) <= len(prompts)):
+        print("잘못된 번호입니다.")
+        return
+    p = prompts[int(num) - 1]
+    p["favorite"] = not p["favorite"]
+    state = "추가" if p["favorite"] else "해제"
+    print(f"'{p['title']}' 프롬프트를 즐겨찾기에서 {state}했습니다!")
+
