@@ -75,3 +75,22 @@ def show_list():
         print(f"{i}. [{p['category']}] {p['title']}{star}")
     print(f"\n총 {len(prompts)}개의 프롬프트")
 
+# ===== 카테고리별 조회 =====
+def show_by_category():
+    print("\n=== 카테고리별 조회 ===")
+    for i, c in enumerate(categories, 1):
+        print(f"{i}) {c}")
+    choice = input("선택: ").strip()
+    if not (choice.isdigit() and 1 <= int(choice) <= len(categories)):
+        print("잘못된 선택입니다.")
+        return
+    target = categories[int(choice) - 1]
+    found = [p for p in prompts if p["category"] == target]
+    if not found:
+        print("해당 카테고리에 프롬프트가 없습니다.")
+        return
+    print(f"\n[{target}] 카테고리 프롬프트:")
+    for i, p in enumerate(found, 1):
+        star = " ⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']}{star}")
+
